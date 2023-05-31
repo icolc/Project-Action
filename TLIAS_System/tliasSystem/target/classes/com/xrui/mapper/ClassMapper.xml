@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xrui.mapper.ClassMapper">
+
+    <select id="getPage" resultType="com.xrui.pojo.ClassesBean">
+        select c.id,
+        c.name,
+        c.classes_number,
+        c.start_time,
+        c.finish_time,
+        e.name empName
+        from classes c
+        left join emp e on e.id = c.emp_id
+        <where>
+            and c.id &gt; 0
+            <if test="name != null and name.trim() != '' ">
+                and c.name like concat('%',#{name},'%')
+            </if>
+            <if test="begin !=null and end != null">
+                and c.finish_time between #{begin} and #{end}
+            </if>
+        </where>
+    </select>
+
+</mapper>
